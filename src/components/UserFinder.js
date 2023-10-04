@@ -3,32 +3,50 @@ import { useState, useEffect } from "react";
 import Users from "./Users";
 import classes from "./UserFinder.module.css";
 
-const DUMMY_USERS = [
-  { id: "u1", name: "Ruperto the frog 🐸" },
-  { id: "u2", name: "ET 👽" },
-  { id: "u3", name: "Julie the bug 🐛" },
-];
+const url = "https://mocki.io/v1/2983a70b-6669-4ff7-ba1d-9e5ce0af358a";
 
 const UserFinder = () => {
-  const [filteredUsers, setFilteredUsers] = useState(DUMMY_USERS);
+  // LOGIC
+  const [filteredUsers, setFilteredUsers] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+
+  const fetchData = async () => {
+    let data;
+    try {
+      const response = await fetch(url);
+      data = await response.json();
+      console.log("data: ", data);
+    } catch (error) {
+      console.log("Error: ", error);
+    }
+    return data;
+  };
 
   useEffect(() => {
-    setFilteredUsers(
-      DUMMY_USERS.filter((user) => user.name.includes(searchTerm))
-    );
+    const fetchUsers = async () => {
+      setIsLoading(true);
+      const usersData = await fetchData();
+      console.log("users: ", usersData);
+      setFilteredUsers(
+        usersData.filter((user) => user.name.includes(searchTerm))
+      );
+      setIsLoading(false);
+    };
+    fetchUsers();
   }, [searchTerm]);
 
   const searchChangeHandler = (event) => {
     setSearchTerm(event.target.value);
   };
 
+  // LOGIC END
   return (
     <>
       <div className={classes.finder}>
         <input type="search" onChange={searchChangeHandler} />
       </div>
-      <Users users={filteredUsers} />
+      {!isLoading && <Users users={filteredUsers} />}
     </>
   );
 };
