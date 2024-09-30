@@ -1,6 +1,7 @@
 import { useState } from "react";
 import User from "./User";
 import classes from "./Users.module.css";
+import { Card } from "./Card";
 
 const Users = ({ users: usersProp }) => {
   const [showUsers, setShowUsers] = useState(true);
@@ -19,7 +20,9 @@ const Users = ({ users: usersProp }) => {
     return (
       <ul>
         {users.map((user) => (
-          <User key={user.id} name={user.name} onDeleteUser={onDeleteUser} />
+          <Card>
+            <User key={user.id} name={user.name} onDeleteUser={onDeleteUser} />
+          </Card>
         ))}
       </ul>
     );
