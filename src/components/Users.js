@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import User from "./User";
 import classes from "./Users.module.css";
 import { Card } from "./Card";
@@ -15,6 +15,10 @@ const Users = ({ users: usersProp }) => {
     const filteredUsers = users.filter((user) => user.name !== deletedUser);
     setUsers(filteredUsers);
   };
+
+  useEffect(() => {
+    setUsers(usersProp);
+  }, [usersProp]);
 
   const usersList = () => {
     return (
