@@ -6,9 +6,12 @@ export const Score = ({ amount }) => {
 
   return (
     <div>
-      {starsAmount.map((start) => {
-        return <Star />;
-      })}
+      {starsAmount.map((_start, index) => (
+        <Star key={index} />
+        /* it's  👆 important to use the "key" prop to let react properly detect changes
+        if we don't have an id per each iterable item which is the ideal scenario,
+        we can use the map index instead  */
+      ))}
     </div>
   );
 };

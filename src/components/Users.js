@@ -26,6 +26,8 @@ const Users = ({ users: usersProp }) => {
         {users.map((user) => (
           <Card>
             <User key={user.id} name={user.name} onDeleteUser={onDeleteUser} />
+            {/* it's  👆 important to use the "key" prop to let react properly detect changes
+            and do the required changes on the reconciliation process  */}
           </Card>
         ))}
       </ul>
